@@ -75,7 +75,7 @@ exports.login = async (req, res) => {
     // send cookie in response
     res.cookie("token", token, options).status(200).json({
       success: true,
-      message: `User Login Success`,
+      message: `Welcome back ${user.name}`,
       user : {
         id: user._id,
         name: user.name,

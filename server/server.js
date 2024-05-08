@@ -1,8 +1,11 @@
 const express = require("express");
 const dotenv = require("dotenv");
+const cors = require("cors");
+const cookieParser = require("cookie-parser");
 const morgan = require("morgan");
 const connectDB = require("./config/database.js");
 const userRoutes = require("./routes/Auth.router.js");
+const bodyParser = require("body-parser");
 
 // congfiguring dotenv
 dotenv.config({ path: "./.env" });
@@ -11,6 +14,15 @@ connectDB();
 
 // express server
 const app = express();
+
+// cors
+app.use(cors({
+  origin: process.env.CORS_ORIGIN,
+  credentials: true
+}))
+app.use(cookieParser());
+app.use(bodyParser.urlencoded({ extended: false }));
+
 
 // middlewares
 app.use(express.json());
