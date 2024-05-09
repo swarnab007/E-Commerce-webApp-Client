@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Layout from "../../components/layout/Layout.jsx";
 import { ArrowRight } from "lucide-react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import axios from "axios";
 import { useAuth } from "../../context/Auth.jsx";
@@ -11,6 +11,7 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [auth, setAuth] = useAuth(); // [state, setState]
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -29,16 +30,16 @@ const Login = () => {
           withCredentials: true,
         }
       );
-      console.log(data);
+      // console.log(data);
       toast.success(data.message);
       setAuth({
         ...auth,
         user: data.user,
         token: data.user.token,
       });
-      console.log(auth);
+      // console.log(auth);
       localStorage.setItem("auth", JSON.stringify(data));
-      navigate("/");
+      navigate(location.state || "/");
     } catch (error) {
       toast.error(error.response.data.message);
     }

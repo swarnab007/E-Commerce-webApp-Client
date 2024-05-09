@@ -27,7 +27,7 @@ const menuItems = [
 function Header() {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   const [auth, setAuth] = useAuth(); // [state, setState
-  console.log(auth);
+  // console.log(auth);
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
