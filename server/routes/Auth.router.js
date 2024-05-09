@@ -14,5 +14,9 @@ router.post("/register", register);
 router.post("/login", login);
 // GET : test route
 router.get("/test", requiresignIn, adminAccess, test);
+// GET : protected routes
+router.get("/auth-user", requiresignIn, (req, res) => {
+  res.status(200).send({ ok: true});
+});
 
 module.exports = router;

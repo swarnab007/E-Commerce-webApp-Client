@@ -4,10 +4,12 @@ import { ArrowRight } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import axios from "axios";
+import { useAuth } from "../../context/Auth.jsx";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [auth, setAuth] = useAuth(); // [state, setState]
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
@@ -28,12 +30,15 @@ const Login = () => {
         }
       );
       console.log(data);
-      if (data && data.message) {
-        toast.success(data.message);
-        navigate("/");
-      } else {
-        toast.error(data.error);
-      }
+      toast.success(data.message);
+      setAuth({
+        ...auth,
+        user: data.user,
+        token: data.user.token,
+      });
+      console.log(auth);
+      localStorage.setItem("auth", JSON.stringify(data));
+      navigate("/");
     } catch (error) {
       toast.error(error.response.data.message);
     }

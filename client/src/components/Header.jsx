@@ -1,7 +1,9 @@
 import React from "react";
-import '../App.css';
+import "../App.css";
 import { Menu, X } from "lucide-react";
 import { NavLink, Link } from "react-router-dom";
+import { useAuth } from "../context/Auth.jsx";
+import toast from "react-hot-toast";
 
 const menuItems = [
   {
@@ -19,14 +21,25 @@ const menuItems = [
   {
     name: "contact",
     href: "/contact",
-  }
+  },
 ];
 
 function Header() {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
-
+  const [auth, setAuth] = useAuth(); // [state, setState
+  console.log(auth);
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
+  };
+
+  const handleLogout = () => {
+    setAuth({
+      ...auth,
+      user: null,
+      token: "",
+    });
+    toast.success("Logout Successfully");
+    localStorage.removeItem("auth");
   };
 
   return (
@@ -41,7 +54,9 @@ function Header() {
           <ul className="ml-12 inline-flex space-x-8">
             {menuItems.map((item) => (
               <li key={item.name}>
-                <NavLink exact activeClassName="active"
+                <NavLink
+                  exact
+                  activeClassName="active"
                   to={item.href}
                   className="text-xl font-semibold text-white hover:text-gray-200"
                 >
@@ -53,19 +68,39 @@ function Header() {
         </div>
         <div className="hidden lg:block">
           <button
-            exact activeClassName="active"
+            exact
+            activeClassName="active"
             type="button"
             className="rounded-md bg-black px-3 py-2 text-xl font-semibold text-white shadow-sm hover:bg-orange-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
           >
             <NavLink to={"/register"}>Sign up</NavLink>
           </button>
+          {auth.user ? (
+            <button
+              autoCapitalize="active"
+              exact
+              onClick={handleLogout}
+              type="submit"
+              className="rounded-md bg-black px-3 py-2 text-xl font-semibold text-white shadow-sm hover:bg-orange-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
+            >
+              <span className="text-sm mr-4">
+                {auth.user.name.toUpperCase()}
+              </span>
+              <NavLink to={"/"}>Log out</NavLink>
+            </button>
+          ) : (
+            <button
+              autoCapitalize="active"
+              exact
+              type="submit"
+              className="rounded-md bg-black px-3 py-2 text-xl font-semibold text-white shadow-sm hover:bg-orange-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
+            >
+              <NavLink to={"/login"}>Log in</NavLink>
+            </button>
+          )}
           <button
-            type="button"
-            className="rounded-md bg-black px-3 py-2 text-xl font-semibold text-white shadow-sm hover:bg-orange-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
-          >
-            <NavLink to={"/login"}>Log in</NavLink>
-          </button>
-          <button
+            autoCapitalize="active"
+            exact
             type="button"
             className="rounded-md bg-black px-3 py-2 text-xl font-semibold text-white shadow-sm hover:bg-orange-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
           >
@@ -123,21 +158,33 @@ function Header() {
                     ))}
                   </nav>
                 </div>
-                <div className="mt-4 w-full flex flex-col items-center">
-                  
-                </div>
+                <div className="mt-4 w-full flex flex-col items-center"></div>
                 <button
                   type="submit"
                   className="mt-4 w-full rounded-md bg-black px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-black/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
                 >
                   <NavLink to={"/register"}>sign up</NavLink>
                 </button>
-                <button
-                  type="submit"
-                  className="mt-4 w-full rounded-md bg-black px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-black/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
-                >
-                  <NavLink to={"/login"}>Log in</NavLink>
-                </button>
+                {auth.user ? (
+                  <button
+                    onClick={handleLogout}
+                    type="submit"
+                    className="rounded-md bg-black px-3 py-2 text-xl font-semibold text-white shadow-sm hover:bg-orange-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
+                  >
+                    <span className="text-sm sm:w-full mr-4">
+                      {auth.user.name.toUpperCase()}
+                    </span>
+                    <NavLink to={"/"}>Log out</NavLink>
+                  </button>
+                ) : (
+                  <button
+                    type="submit"
+                    className="rounded-md bg-black px-3 py-2 text-xl font-semibold text-white shadow-sm hover:bg-orange-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
+                  >
+                    <NavLink to={"/login"}>Log in</NavLink>
+                  </button>
+                )}
+
                 <button
                   type="submit"
                   className="mt-4 w-full rounded-md bg-black px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-black/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
