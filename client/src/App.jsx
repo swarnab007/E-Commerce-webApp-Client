@@ -9,7 +9,9 @@ import PagenotFound from "./pages/PagenotFound.jsx";
 import Register from "./pages/Auth/Register.jsx";
 import Login from "./pages/Auth/Login.jsx";
 import PrivateRoute from "./routes/PrivateRoute.jsx";
+import AdminRoute from "./routes/AdminRoute.jsx";
 import Dashboard from "./pages/user/Dashboard.jsx";
+import AdminDashboard from "./pages/Admin/AdminDashboard.jsx";
 
 function App() {
   return (
@@ -17,7 +19,10 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/dashboard" element={<PrivateRoute />}>
-          <Route path="" element={<Dashboard />} />
+          <Route path="user" element={<Dashboard />} />
+        </Route>
+        <Route path="/dashboard" element={<AdminRoute />}>
+          <Route path="admin" element={<AdminDashboard />} />
         </Route>
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />

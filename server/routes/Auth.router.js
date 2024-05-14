@@ -14,8 +14,12 @@ router.post("/register", register);
 router.post("/login", login);
 // GET : test route
 router.get("/test", requiresignIn, adminAccess, test);
-// GET : protected routes
+// GET : user protected routes
 router.get("/auth-user", requiresignIn, (req, res) => {
+  res.status(200).send({ ok: true});
+});
+// GET : admin protected routes
+router.get("/auth-admin", requiresignIn, adminAccess, (req, res) => {
   res.status(200).send({ ok: true});
 });
 
