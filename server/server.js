@@ -5,6 +5,7 @@ const cookieParser = require("cookie-parser");
 const morgan = require("morgan");
 const connectDB = require("./config/database.js");
 const userRoutes = require("./routes/Auth.router.js");
+const categoryRoutes = require("./routes/Category.router.js");
 const bodyParser = require("body-parser");
 
 // congfiguring dotenv
@@ -23,13 +24,13 @@ app.use(cors({
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-
 // middlewares
 app.use(express.json());
 app.use(morgan("dev"));
 
 // defining routes for users
 app.use("/api/v1/users", userRoutes);
+app.use("/api/v1/categories", categoryRoutes);
 
 const PORT = process.env.PORT || 3000;
 

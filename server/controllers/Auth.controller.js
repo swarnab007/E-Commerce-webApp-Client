@@ -73,19 +73,23 @@ exports.login = async (req, res) => {
       httpOnly: true,
     };
     // send cookie in response
-    res.cookie("token", token, options).status(200).json({
-      success: true,
-      message: `Welcome back ${user.name}`,
-      user : {
-        id: user._id,
-        name: user.name,
-        email: user.email,
-        phoneNo: user.phoneNo,
-        address: user.address,
-        role: user.role,
-        token: user.token
-      },
-    });
+
+    res
+      .cookie("token", token, options)
+      .status(200)
+      .json({
+        success: true,
+        message: `Welcome back ${user.name}`,
+        user: {
+          id: user._id,
+          name: user.name,
+          email: user.email,
+          phoneNo: user.phoneNo,
+          address: user.address,
+          role: user.role,
+          token: user.token,
+        },
+      });
   } catch (error) {
     console.log(error);
     res.status(500).json({ success: false, message: "Internal server error" });
@@ -99,6 +103,6 @@ exports.test = (req, res) => {
     res.send("Test route is working fine!");
   } catch (error) {
     console.log(error);
-    res.send({error})
+    res.send({ error });
   }
 };
