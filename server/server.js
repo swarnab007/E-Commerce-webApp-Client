@@ -6,6 +6,7 @@ const morgan = require("morgan");
 const connectDB = require("./config/database.js");
 const userRoutes = require("./routes/Auth.router.js");
 const categoryRoutes = require("./routes/Category.router.js");
+const productRoutes = require("./routes/Product.router.js");
 const bodyParser = require("body-parser");
 
 // congfiguring dotenv
@@ -31,6 +32,7 @@ app.use(morgan("dev"));
 // defining routes for users
 app.use("/api/v1/users", userRoutes);
 app.use("/api/v1/categories", categoryRoutes);
+app.use("/api/v1/products", productRoutes);
 
 const PORT = process.env.PORT || 3000;
 
