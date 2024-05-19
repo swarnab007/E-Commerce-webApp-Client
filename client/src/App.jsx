@@ -12,6 +12,7 @@ import PrivateRoute from "./routes/PrivateRoute.jsx";
 import AdminRoute from "./routes/AdminRoute.jsx";
 import Dashboard from "./pages/user/Dashboard.jsx";
 import AdminDashboard from "./pages/Admin/AdminDashboard.jsx";
+import CreateCategory from "./pages/Admin/CreateCategory.jsx";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
         </Route>
         <Route path="/dashboard" element={<AdminRoute />}>
           <Route path="admin" element={<AdminDashboard />} />
+          <Route path="admin/create-category" element={<CreateCategory />} />
         </Route>
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />

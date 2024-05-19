@@ -1,6 +1,6 @@
 import React from "react";
-import Header from "../Header.jsx";
-import Footer from "../Footer.jsx";
+import Header from "./Header.jsx";
+import Footer from "./Footer.jsx";
 import { Helmet } from "react-helmet";
 import { Toaster } from "react-hot-toast";
 

@@ -1,8 +1,8 @@
 import React from "react";
-import "../App.css";
+import "../../App.css";
 import { Menu, X, ArrowDown } from "lucide-react";
 import { NavLink, Link } from "react-router-dom";
-import { useAuth } from "../context/Auth.jsx";
+import { useAuth } from "../../context/Auth.jsx";
 import toast from "react-hot-toast";
 
 const menuItems = [
