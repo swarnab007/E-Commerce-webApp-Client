@@ -12,8 +12,8 @@ const AdminDashboard = () => {
   };
 
   return (
-    <Layout>
-      <div className="flex h-screen">
+    <Layout title="Dashboard - Admin">
+      <div className="flex h-screen overflow-hidden">
         {/* Sidebar */}
         <div
           className={`fixed inset-y-0 left-0 z-40 w-64 bg-gray-50 dark:bg-gray-800 transition-transform transform ${
@@ -48,7 +48,7 @@ const AdminDashboard = () => {
         </div>
 
         {/* Content */}
-        <div className="flex-1 flex flex-col w-full sm:ml-64">
+        <div className="flex-1 flex flex-col sm:ml-64">
           <header className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-800 sm:hidden">
             <button
               onClick={toggleSidebar}
@@ -74,51 +74,49 @@ const AdminDashboard = () => {
             </h2>
           </header>
 
-          <main className="flex-1 p-6 bg-gray-100 dark:bg-gray-900">
-            <div className="bg-white overflow-hidden shadow rounded-lg border dark:bg-gray-700 dark:border-gray-600">
-              <div className="px-4 py-5 sm:px-6">
-                <h3 className="text-2xl leading-6 font-medium text-gray-900 dark:text-white">
-                  Admin Profile
-                </h3>
-              </div>
-              <div className="border-t border-gray-200 dark:border-gray-600 px-4 py-5 sm:p-0">
-                <dl className="sm:divide-y sm:divide-gray-200 dark:divide-gray-600">
-                  <div className="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                    <dt className="text-lg font-medium text-gray-500 dark:text-gray-300">
-                      Full name
-                    </dt>
-                    <dd className="mt-1 text-lg text-gray-900 dark:text-white sm:mt-0 sm:col-span-2">
-                      {auth.user.name}
-                    </dd>
-                  </div>
-                  <div className="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                    <dt className="text-lg font-medium text-gray-500 dark:text-gray-300">
-                      Email address
-                    </dt>
-                    <dd className="mt-1 text-lg text-gray-900 dark:text-white sm:mt-0 sm:col-span-2">
-                      {auth.user.email}
-                    </dd>
-                  </div>
-                  <div className="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                    <dt className="text-lg font-medium text-gray-500 dark:text-gray-300">
-                      Phone number
-                    </dt>
-                    <dd className="mt-1 text-lg text-gray-900 dark:text-white sm:mt-0 sm:col-span-2">
-                    {auth.user.phonoNo}
-                    </dd>
-                  </div>
-                  <div className="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                    <dt className="text-lg font-medium text-gray-500 dark:text-gray-300">
-                      Address
-                    </dt>
-                    <dd className="mt-1 text-lg text-gray-900 dark:text-white sm:mt-0 sm:col-span-2">
-                      {auth.user.address}
-                    </dd>
-                  </div>
-                </dl>
-              </div>
+          <div className="bg-white overflow-hidden shadow rounded-lg border dark:bg-gray-700 dark:border-gray-600">
+            <div className="px-4 py-5 sm:px-6">
+              <h3 className="text-2xl leading-6 font-medium text-gray-900 dark:text-white">
+                Admin Profile
+              </h3>
             </div>
-          </main>
+            <div className="border-t border-gray-200 dark:border-gray-600 px-4 py-5 sm:p-0">
+              <dl className="sm:divide-y sm:divide-gray-200 dark:divide-gray-600">
+                <div className="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                  <dt className="text-lg font-medium text-gray-500 dark:text-gray-300">
+                    Full name
+                  </dt>
+                  <dd className="mt-1 text-lg text-gray-900 dark:text-white sm:mt-0 sm:col-span-2">
+                    {auth.user.name}
+                  </dd>
+                </div>
+                <div className="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                  <dt className="text-lg font-medium text-gray-500 dark:text-gray-300">
+                    Email address
+                  </dt>
+                  <dd className="mt-1 text-lg text-gray-900 dark:text-white sm:mt-0 sm:col-span-2">
+                    {auth.user.email}
+                  </dd>
+                </div>
+                <div className="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                  <dt className="text-lg font-medium text-gray-500 dark:text-gray-300">
+                    Phone number
+                  </dt>
+                  <dd className="mt-1 text-lg text-gray-900 dark:text-white sm:mt-0 sm:col-span-2">
+                    {auth.user.phoneNo}
+                  </dd>
+                </div>
+                <div className="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                  <dt className="text-lg font-medium text-gray-500 dark:text-gray-300">
+                    Address
+                  </dt>
+                  <dd className="mt-1 text-lg text-gray-900 dark:text-white sm:mt-0 sm:col-span-2">
+                    {auth.user.address}
+                  </dd>
+                </div>
+              </dl>
+            </div>
+          </div>
         </div>
       </div>
     </Layout>
