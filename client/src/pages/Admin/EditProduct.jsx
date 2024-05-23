@@ -3,9 +3,10 @@ import Layout from "../../components/layout/Layout.jsx";
 import AdminMenu from "../../components/layout/AdminMenu.jsx";
 import toast from "react-hot-toast";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { Modal } from "antd";
 
-const CreateProduct = () => {
+const UpdateProduct = () => {
   const [category, setCategory] = useState("");
   const [categories, setCategories] = useState([]);
   const [name, setName] = useState("");
@@ -14,11 +15,36 @@ const CreateProduct = () => {
   const [price, setPrice] = useState("");
   const [shipping, setShipping] = useState("");
   const [image, setImage] = useState("");
+  const [id, setId] = useState("");
   const navigate = useNavigate();
+  const params = useParams();
 
-  const submitHandler = async (e) => {
+  // get single product
+  const getProduct = async () => {
+    try {
+      const { data } = await axios.get(
+        `/api/v1/products/product/${params.slug}`
+      );
+      console.log(data.product);
+      setName(data.product.name);
+      setDescription(data.product.description);
+      setQuantity(data.product.quantity);
+      setPrice(data.product.price);
+      setShipping(data.product.shipping);
+      setCategory(data.product.category._id);
+      setId(data.product._id);
+    } catch (error) {
+      console.log(error);
+      toast.error("Something went wrong in fetching the product");
+    }
+  };
+
+  useEffect(() => {
+    getProduct();
+  }, []);
+
+  const updateHandler = async (e) => {
     e.preventDefault();
-    console.log(name, description, quantity, price, shipping, category, image);
 
     try {
       const formData = new FormData();
@@ -28,10 +54,12 @@ const CreateProduct = () => {
       formData.append("price", price);
       formData.append("shipping", shipping);
       formData.append("category", category);
-      formData.append("image", image);
+      if (image) {
+        formData.append("image", image);
+      }
 
-      const { data } = await axios.post(
-        "/api/v1/products/create-product",
+      const { data } = await axios.put(
+        `/api/v1/products/update-product/${id}`,
         formData,
         {
           headers: {
@@ -39,8 +67,7 @@ const CreateProduct = () => {
           },
         }
       );
-      console.log(data);
-      toast.success(`${data.products.name} created successfully`);
+      toast.success(`${data.product.name} updated successfully`);
       setName("");
       setDescription("");
       setQuantity("");
@@ -51,10 +78,11 @@ const CreateProduct = () => {
       navigate("/dashboard/admin/products");
     } catch (error) {
       console.log(error);
-      toast.error("Something went wrong in creating the product");
+      toast.error("Something went wrong in updating the product");
     }
   };
 
+  // get all categories
   const getCategories = async () => {
     try {
       const { data } = await axios.get("/api/v1/categories/categories");
@@ -69,8 +97,30 @@ const CreateProduct = () => {
     getCategories();
   }, []);
 
+  const deleteHandler = () => {
+    Modal.confirm({
+      title: "Are you sure you want to delete this product?",
+      content: "This action cannot be undone",
+      onOk: async () => {
+        try {
+          const { data } = await axios.delete(
+            `/api/v1/products/delete-product/${id}`
+          );
+          toast.success(`${data.message}`);
+          navigate("/dashboard/admin/products");
+        } catch (error) {
+          console.log(error);
+          toast.error("Something went wrong in deleting the product");
+        }
+      },
+      onCancel() {
+        console.log("Cancel");
+      },
+    });
+  };
+
   return (
-    <Layout title={"Dashboard - Create Product"}>
+    <Layout title={"Dashboard - Update Product"}>
       <div className="flex flex-col sm:flex-row h-full overflow-hidden">
         <div className="flex-shrink-0 shadow-lg w-full sm:w-64">
           <AdminMenu />
@@ -79,9 +129,9 @@ const CreateProduct = () => {
         <section className="bg-gray-100 dark:bg-gray-900 w-full">
           <div className="py-8 px-4 mx-auto max-w-2xl lg:py-16">
             <h2 className="mb-4 text-xl font-bold text-gray-900 dark:text-white">
-              Add a new product
+              Update product
             </h2>
-            <form onSubmit={submitHandler}>
+            <form onSubmit={updateHandler}>
               <div className="grid gap-4 sm:grid-cols-2 sm:gap-6">
                 <div className="sm:col-span-2">
                   <label
@@ -242,9 +292,16 @@ const CreateProduct = () => {
                 type="submit"
                 className="inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-primary-700 rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-primary-800"
               >
-                Add product
+                Update product
               </button>
             </form>
+            <button
+              onClick={deleteHandler}
+              type="button"
+              className="inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-red-700 rounded-lg focus:ring-4 focus:ring-red-200 dark:focus:ring-red-900 hover:bg-red-800"
+            >
+              Delete product
+            </button>
           </div>
         </section>
       </div>
@@ -252,4 +309,4 @@ const CreateProduct = () => {
   );
 };
 
-export default CreateProduct;
+export default UpdateProduct;

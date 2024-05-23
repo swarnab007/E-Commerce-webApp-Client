@@ -14,6 +14,8 @@ import Dashboard from "./pages/user/Dashboard.jsx";
 import AdminDashboard from "./pages/Admin/AdminDashboard.jsx";
 import CreateCategory from "./pages/Admin/CreateCategory.jsx";
 import CreateProduct from "./pages/Admin/CreateProduct.jsx";
+import Products from "./pages/Admin/Products.jsx";
+import EditProduct from "./pages/Admin/EditProduct.jsx";
 
 function App() {
   return (
@@ -27,6 +29,8 @@ function App() {
           <Route path="admin" element={<AdminDashboard />} />
           <Route path="admin/create-category" element={<CreateCategory />} />
           <Route path="admin/create-product" element={<CreateProduct />} />
+          <Route path="admin/products" element={<Products />} />
+          <Route path="admin/product/:slug" element={<EditProduct />} />
         </Route>
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />

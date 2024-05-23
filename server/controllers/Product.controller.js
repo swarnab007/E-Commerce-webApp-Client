@@ -65,7 +65,7 @@ exports.getSingleProduct = async (req, res) => {
     const product = await Product.findOne({ slug: req.params.slug })
       .populate("category")
       .select("-image");
-    return res.status(200).json({ success: true, message: "Product", product });
+    return res.status(200).send({ success: true, message: "Product", product });
   } catch (error) {
     console.log(error);
     res.status(500).json({ success: false, message: "Can not get product" });
