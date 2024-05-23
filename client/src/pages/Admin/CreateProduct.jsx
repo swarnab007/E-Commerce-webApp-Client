@@ -19,25 +19,26 @@ const CreateProduct = () => {
     console.log(name, description, quantity, price, shipping, category, image);
 
     try {
+      const formData = new FormData();
+      formData.append("name", name);
+      formData.append("description", description);
+      formData.append("quantity", quantity);
+      formData.append("price", price);
+      formData.append("shipping", shipping);
+      formData.append("category", category);
+      formData.append("image", image);
+
       const { data } = await axios.post(
         "/api/v1/products/create-product",
-        {
-          name,
-          description,
-          quantity,
-          price,
-          shipping,
-          category,
-          image,
-        },
+        formData,
         {
           headers: {
-            "Content-Type": "application/json",
+            "Content-Type": "multipart/form-data",
           },
         }
       );
       console.log(data);
-      toast.success(`${data.product.name} created successfully`);
+      toast.success(`${data.products.name} created successfully`);
       setName("");
       setDescription("");
       setQuantity("");
