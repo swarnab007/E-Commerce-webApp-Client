@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import Layout from "../../components/layout/Layout";
+import Layout from "../../components/layout/Layout.jsx";
 import AdminMenu from "../../components/layout/AdminMenu";
 import axios from "axios";
 import toast from "react-hot-toast";
-import CategoryForm from "../../components/Form/CategoryForm";
+import CategoryForm from "../../components/Form/CategoryForm.jsx";
 import { Modal } from "antd";
 
 const CreateCategory = () => {
@@ -95,7 +95,7 @@ const CreateCategory = () => {
         <div className="flex-shrink-0 w-full sm:w-64">
           <AdminMenu />
         </div>
-
+        
         {/* Content */}
         <div className="flex-1 p-6 bg-gray-100 dark:bg-gray-900 flex justify-center">
           <div className="relative h-fit overflow-x-auto shadow-md sm:rounded-lg w-full sm:max-w-4xl">
