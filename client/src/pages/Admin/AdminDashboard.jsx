@@ -16,11 +16,11 @@ const AdminDashboard = () => {
       <div className="flex h-screen overflow-hidden">
         {/* Sidebar */}
         <div
-          className={`fixed inset-y-0 left-0 z-40 w-64 bg-gray-50 dark:bg-gray-800 transition-transform transform ${
+          className={`fixed  left-0 z-40 w-64 bg-gray-50 dark:bg-gray-800 transition-transform transform ${
             isSidebarOpen ? "translate-x-0" : "-translate-x-full"
           } sm:translate-x-0 sm:relative sm:flex-shrink-0`}
         >
-          <div className="flex items-center justify-between p-4 sm:hidden">
+          <div className="flex items-center justify-between p-4  sm:hidden">
             <h2 className="text-lg font-bold text-gray-900 dark:text-white">
               Admin Panel
             </h2>
@@ -45,11 +45,11 @@ const AdminDashboard = () => {
             </button>
           </div>
           <AdminMenu />
-        </div>
+          </div>
 
         {/* Content */}
-        <div className="flex-1 flex flex-col sm:ml-64">
-          <header className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-800 sm:hidden">
+        <div className="flex-1 flex flex-col sm:ml-64 ">
+          <header className="flex items-center justify-between p-4  dark:bg-gray-800 ">
             <button
               onClick={toggleSidebar}
               className="text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"

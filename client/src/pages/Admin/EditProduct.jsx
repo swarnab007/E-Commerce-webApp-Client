@@ -122,7 +122,7 @@ const UpdateProduct = () => {
   return (
     <Layout title={"Dashboard - Update Product"}>
       <div className="flex flex-col sm:flex-row h-full overflow-hidden">
-        <div className="flex-shrink-0 shadow-lg w-full sm:w-64">
+        <div className=" shadow-lg w-[280px] sm:w-64">
           <AdminMenu />
         </div>
 
@@ -289,8 +289,8 @@ const UpdateProduct = () => {
               </div>
 
               <button
-                type="submit"
-                className="inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-primary-700 rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-primary-800"
+                type="button"
+                class="text-blue-700 hover:text-white border mt-6 border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-500 dark:focus:ring-blue-800"
               >
                 Update product
               </button>

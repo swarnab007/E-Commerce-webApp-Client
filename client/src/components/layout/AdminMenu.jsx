@@ -3,8 +3,7 @@ import { Link } from "react-router-dom";
 
 const AdminMenu = () => {
   return (
-    <div className="max-w-xs"> {/* Set a maximum width */}
-      <div className="h-full text-xl px-3 py-4 overflow-y-auto">
+      <div className="text-xl px-3 py-4 w-[230px] overflow-y-auto">
         <h4 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
           Admin Panel
         </h4>
@@ -43,7 +42,6 @@ const AdminMenu = () => {
           </li>
         </ul>
       </div>
-    </div>
   );
 };
 

@@ -22,11 +22,11 @@ const Products = () => {
 
   return (
     <Layout title={"Dashboard - Products"}>
-      <div className="flex flex-col gap-8 sm:flex-row h-full overflow-hidden">
-        <div className="flex-shrink-0 shadow-lg w-full sm:w-64">
+      <div className="flex flex-row gap-8 sm:flex-row h-full overflow-hidden -z-10">
+        <div className=" shadow-lg w-[280px] sm:w-64">
           <AdminMenu />
         </div>
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 w-full p-4">
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 w-full p-4">
           {products.map((p) => (
             <Link
               to={`/dashboard/admin/product/${p.slug}`}
