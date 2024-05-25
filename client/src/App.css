@@ -3,9 +3,7 @@
 }
 
 .active {
-  background-color: rgb(2, 67, 2);
-  color: #fff;
-  padding: 10px;
+  color: orange;
   border-radius: 10px;
 }
 
