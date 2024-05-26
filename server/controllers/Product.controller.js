@@ -137,3 +137,47 @@ exports.updateProduct = async (req, res) => {
     res.status(500).json({ success: false, message: "Can not update product" });
   }
 };
+
+// filter product
+exports.filterProduct = async (req, res) => {
+  try {
+    const { checked, radio } = req.body;
+    let args = {};
+    if (checked.length > 0) {
+      args.category = checked;
+    }
+    if (radio.length) args.price = { $gte: radio[0], $lte: radio[1] };
+    const products = await Product.find(args);
+    res.status(200).send({
+      success: true,
+      products,
+    });
+  } catch (error) {
+    res.status(200).send({
+      success: false,
+      error,
+    });
+  }
+};
+
+// search product
+exports.searchProduct = async (req, res) => {
+  try {
+    const { keyword } = req.params;
+    const products = await Product.find({
+      $or: [
+        { name: { $regex: keyword, $options: "i" } },
+        { description: { $regex: keyword, $options: "i" } },
+      ],
+    });
+    res.status(200).send({
+      success: true,
+      products,
+    });
+  } catch (error) {
+    res.status(200).send({
+      success: false,
+      error,
+    });
+  }
+};

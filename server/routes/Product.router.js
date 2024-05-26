@@ -7,6 +7,8 @@ const {
   updateProduct,
   deleteProduct,
   getPhoto,
+  filterProduct,
+  searchProduct,
 } = require("../controllers/Product.controller");
 const {
   requiresignIn,
@@ -23,12 +25,16 @@ router.post(
   formidable(),
   createProduct
 );
+
 // get all products
 router.get("/all-products", getAllProducts);
+
 // get single product
 router.get("/product/:slug", getSingleProduct);
+
 // get photo
 router.get("/product/photo/:pid", getPhoto);
+
 // delete product
 router.delete(
   "/delete-product/:pid",
@@ -36,6 +42,7 @@ router.delete(
   adminAccess,
   deleteProduct
 );
+
 // update product
 router.put(
   "/update-product/:pid",
@@ -44,5 +51,11 @@ router.put(
   formidable(),
   updateProduct
 );
+
+// filter product
+router.post("/filter-product", filterProduct);
+
+// search product
+router.get("/search-product/:keyword", searchProduct);
 
 module.exports = router;

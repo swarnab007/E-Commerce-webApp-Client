@@ -29,3 +29,42 @@
   height: 100%;
   object-fit: cover; /* Ensure images cover the slide area */
 }
+
+/* General styles */
+header {
+  background-color: #000;
+  color: #fff;
+}
+
+header a {
+  color: #fff;
+}
+
+header a:hover {
+  color: #ccc;
+}
+
+/* Menu button styles */
+header .menu-btn {
+  background: none;
+  border: none;
+  color: inherit;
+}
+
+header .menu-btn:hover {
+  color: #ccc;
+}
+
+/* Dropdown menu styles */
+header .dropdown-menu {
+  display: none;
+}
+
+header .dropdown-menu.show {
+  display: block;
+}
+
+header form {
+  flex: 1;
+  margin-right: 2rem; /* Add space between search form and nav items */
+}

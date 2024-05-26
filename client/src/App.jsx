@@ -16,12 +16,16 @@ import CreateCategory from "./pages/Admin/CreateCategory.jsx";
 import CreateProduct from "./pages/Admin/CreateProduct.jsx";
 import Products from "./pages/Admin/Products.jsx";
 import EditProduct from "./pages/Admin/EditProduct.jsx";
+import Categories from "./pages/Categories.jsx";
+import SearchPage from "./pages/SearchPage.jsx";
 
 function App() {
   return (
     <>
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/search-reasults" element={<SearchPage />} />
+        <Route path="/categories" element={<Categories />} />
         <Route path="/dashboard" element={<PrivateRoute />}>
           <Route path="user" element={<Dashboard />} />
         </Route>
