@@ -69,13 +69,13 @@ function Header() {
                 <div className="absolute right-0 mt-2 w-48 bg-white text-black rounded-md shadow-lg z-10">
                   <NavLink
                     to={`/dashboard/${auth.user.role === 1 ? "admin" : "user"}`}
-                    className="block px-4 py-2 hover:bg-blue-400"
+                    className="block text-center text-black px-4 py-2 hover:bg-blue-400"
                   >
                     Dashboard
                   </NavLink>
                   <button
                     onClick={handleLogout}
-                    className="block w-full px-4 py-2 hover:bg-blue-400 text-left"
+                    className="block text-center w-full px-4 py-2 hover:bg-blue-400"
                   >
                     Log out
                   </button>

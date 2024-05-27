@@ -37,7 +37,7 @@ const Products = () => {
                 <img
                   src={`/api/v1/products/product/photo/${p._id}`}
                   alt={p.name}
-                  className="h-[200px] w-full rounded-t-md object-cover"
+                  className="h-[200px] w-full rounded-t-md object-contain"
                 />
                 <div className="p-4">
                   <h1 className="text-lg font-semibold">{p.name}</h1>

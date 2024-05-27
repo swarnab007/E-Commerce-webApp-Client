@@ -18,6 +18,7 @@ import Products from "./pages/Admin/Products.jsx";
 import EditProduct from "./pages/Admin/EditProduct.jsx";
 import Categories from "./pages/Categories.jsx";
 import SearchPage from "./pages/SearchPage.jsx";
+import Details from "./pages/Details.jsx";
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/search-reasults" element={<SearchPage />} />
         <Route path="/categories" element={<Categories />} />
+        <Route path="/product-details/:slug" element={<Details />} />
         <Route path="/dashboard" element={<PrivateRoute />}>
           <Route path="user" element={<Dashboard />} />
         </Route>

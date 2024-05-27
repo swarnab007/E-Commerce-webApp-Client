@@ -1,6 +1,7 @@
 import React from "react";
 import { useSearch } from "../context/Search.jsx";
 import Layout from "../components/layout/Layout.jsx";
+import { Link } from "react-router-dom";
 
 const SearchPage = () => {
   const [search, setSearch] = useSearch();
@@ -81,12 +82,14 @@ const SearchPage = () => {
                 </div>
               </div>
               <div className="flex justify-between mt-4">
-                <button
-                  type="button"
-                  className="text-white bg-gradient-to-r from-teal-400 via-teal-500 to-teal-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-teal-300 dark:focus:ring-teal-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
-                >
-                  Details
-                </button>
+                <Link to={`/product-details/${p.slug}`}>
+                  <button
+                    type="button"
+                    className="text-white bg-gradient-to-r from-teal-400 via-teal-500 to-teal-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-teal-300 dark:focus:ring-teal-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
+                  >
+                    Details
+                  </button>
+                </Link>
                 <button
                   type="button"
                   className="text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"

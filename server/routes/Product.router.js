@@ -9,6 +9,7 @@ const {
   getPhoto,
   filterProduct,
   searchProduct,
+  similarProducts,
 } = require("../controllers/Product.controller");
 const {
   requiresignIn,
@@ -57,5 +58,8 @@ router.post("/filter-product", filterProduct);
 
 // search product
 router.get("/search-product/:keyword", searchProduct);
+
+// get similar products
+router.get("/similar-products/:pid/:cid", similarProducts);
 
 module.exports = router;

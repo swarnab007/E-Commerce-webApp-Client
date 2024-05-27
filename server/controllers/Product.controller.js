@@ -153,7 +153,7 @@ exports.filterProduct = async (req, res) => {
       products,
     });
   } catch (error) {
-    res.status(200).send({
+    res.status(500).send({
       success: false,
       error,
     });
@@ -175,8 +175,33 @@ exports.searchProduct = async (req, res) => {
       products,
     });
   } catch (error) {
-    res.status(200).send({
+    res.status(500).send({
       success: false,
+      error,
+    });
+  }
+};
+
+// get similar Products
+exports.similarProducts = async (req, res) => {
+  try {
+    const { pid, cid } = req.params;
+    const products = await Product.find({
+      category: cid,
+      _id: { $ne: pid },
+    })
+      .limit(4)
+      .select("-image")
+      .populate("category");
+    res.status(200).send({
+      success: true,
+      message: "Similar Product fetched successfully",
+      products,
+    });
+  } catch (error) {
+    res.status(500).send({
+      success: false,
+      message: "Error in fetching similar Products",
       error,
     });
   }
