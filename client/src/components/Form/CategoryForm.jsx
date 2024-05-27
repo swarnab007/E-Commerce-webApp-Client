@@ -3,8 +3,8 @@ import React from "react";
 const CategoryForm = ({ handleSubmit, name, setName }) => {
   return (
     <div>
-      <form onSubmit={handleSubmit} className="max-w-sm mx-auto">
-        <div className="mb-5">
+      <form onSubmit={handleSubmit} className="max-w-md mx-auto">
+        <div className="flex items-center mb-5">
           <input
             type="text"
             id="text"
@@ -14,13 +14,13 @@ const CategoryForm = ({ handleSubmit, name, setName }) => {
             placeholder="Category name"
             required
           />
+          <button
+            type="submit"
+            className="ml-3 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-md px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+          >
+            Submit
+          </button>
         </div>
-        <button
-          type="submit"
-          className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-md w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-        >
-          Submit
-        </button>
       </form>
     </div>
   );

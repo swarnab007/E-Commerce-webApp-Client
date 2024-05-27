@@ -5,6 +5,7 @@ import { NavLink, Link } from "react-router-dom";
 import { useAuth } from "../../context/Auth.jsx";
 import toast from "react-hot-toast";
 import SearchInput from "../Form/SearchInput.jsx";
+import { useCart } from "../../context/Cart.jsx";
 
 const menuItems = [
   { name: "Home", href: "/" },
@@ -17,6 +18,7 @@ function Header() {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = React.useState(false);
   const [auth, setAuth] = useAuth();
+  const [cart, setCart] = useCart();
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -98,9 +100,11 @@ function Header() {
               </NavLink>
             </>
           )}
-          <button className="bg-gray-700 px-4 py-2 rounded-md hover:bg-gray-600">
-            Cart<span className="ml-2">[0]</span>
-          </button>
+          <Link to="/cart">
+            <button className="bg-gray-700 px-4 py-2 rounded-md hover:bg-gray-600">
+              Cart<span className="ml-2">[{cart.length}]</span>
+            </button>
+          </Link>
         </div>
         <button onClick={toggleMenu} className="lg:hidden">
           <Menu className="w-6 h-6" />
@@ -211,9 +215,11 @@ function Header() {
                 </NavLink>
               </>
             )}
-            <button className="bg-gray-700 px-4 py-2 rounded-md hover:bg-gray-600 w-full text-center">
-              Cart<span className="ml-2">[0]</span>
-            </button>
+            <Link to="/cart">
+              <button className="bg-gray-700 px-4 py-2 rounded-md hover:bg-gray-600">
+                Cart<span className="ml-2">[{cart.length}]</span>
+              </button>
+            </Link>
           </div>
         </div>
       )}

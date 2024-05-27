@@ -4,10 +4,13 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import Layout from "../components/layout/Layout";
 import { Link } from "react-router-dom";
+import { useCart } from "../context/Cart";
+import { toast } from "react-hot-toast";
 
 const Details = () => {
   const [product, setProduct] = useState({});
   const [similarProducts, setSimilarProducts] = useState([]);
+  const [cart, setCart] = useCart();
   const params = useParams();
 
   // get single product
@@ -76,6 +79,11 @@ const Details = () => {
                     {product.price && `$${product.price}`}
                   </span>
                   <button
+                    onClick={() => {
+                      setCart([...cart, product]);
+                      localStorage.setItem("cart", JSON.stringify([...cart, product]));
+                      toast.success("Product added to cart");
+                    }}
                     type="button"
                     className="rounded-md bg-green-600 px-6 py-3 text-sm font-semibold text-white shadow-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-600 focus:ring-offset-2"
                   >
@@ -138,7 +146,12 @@ const Details = () => {
                           </button>
                         </Link>
                         <button
-                          type="button"
+                          type="submit"
+                          onClick={() => {
+                            setCart([...cart, p]);
+                            localStorage.setItem("cart", JSON.stringify(cart));
+                            toast.success("Product added to cart");
+                          }}
                           className="bg-green-600 hover:bg-green-700 text-white font-medium rounded-lg text-sm px-5 py-2.5 text-center"
                         >
                           Add to cart

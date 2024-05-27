@@ -4,12 +4,14 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { Prices } from "../components/Prices.jsx";
 import { Link } from "react-router-dom";
+import { useCart } from "../context/Cart.jsx";
 
 const Categories = () => {
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [checked, setChecked] = useState([]);
   const [radio, setRadio] = useState("");
+  const [cart, setCart] = useCart();
 
   const getCategories = async () => {
     try {
@@ -238,7 +240,12 @@ const Categories = () => {
                       </button>
                     </Link>
                     <button
-                      type="button"
+                      onClick={() => {
+                        setCart([...cart, p]);
+                        localStorage.setItem("cart", JSON.stringify([...cart, p]));
+                        toast.success("Product added to cart");
+                      }}
+                      type="submit"
                       className="text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
                     >
                       Add to cart

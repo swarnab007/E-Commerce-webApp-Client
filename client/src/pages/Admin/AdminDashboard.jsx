@@ -16,11 +16,11 @@ const AdminDashboard = () => {
       <div className="flex h-screen overflow-hidden">
         {/* Sidebar */}
         <div
-          className={`fixed  left-0 z-40 w-64 bg-gray-50 dark:bg-gray-800 transition-transform transform ${
+          className={`fixed left-0 z-40 w-64 bg-gray-50 dark:bg-gray-800 transition-transform transform ${
             isSidebarOpen ? "translate-x-0" : "-translate-x-full"
           } sm:translate-x-0 sm:relative sm:flex-shrink-0`}
         >
-          <div className="flex items-center justify-between p-4  sm:hidden">
+          <div className="flex items-center justify-between p-4 sm:hidden">
             <h2 className="text-lg font-bold text-gray-900 dark:text-white">
               Admin Panel
             </h2>
@@ -45,14 +45,14 @@ const AdminDashboard = () => {
             </button>
           </div>
           <AdminMenu />
-          </div>
+        </div>
 
         {/* Content */}
-        <div className="flex-1 flex flex-col sm:ml-64 ">
-          <header className="flex items-center justify-between p-4  dark:bg-gray-800 ">
+        <div className="flex-1 flex flex-col sm:ml-64">
+          <header className="flex items-center justify-between p-4 bg-white dark:bg-gray-800 shadow">
             <button
               onClick={toggleSidebar}
-              className="text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
+              className="text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white sm:hidden"
             >
               <svg
                 className="w-6 h-6"
@@ -74,8 +74,8 @@ const AdminDashboard = () => {
             </h2>
           </header>
 
-          <div className="bg-white overflow-hidden shadow rounded-lg border dark:bg-gray-700 dark:border-gray-600">
-            <div className="px-4 py-5 sm:px-6">
+          <div className="bg-white overflow-hidden shadow rounded-lg border dark:bg-gray-700 dark:border-gray-600 mt-4 mx-4">
+            <div className="px-4 py-5 text-center sm:px-6">
               <h3 className="text-2xl leading-6 font-medium text-gray-900 dark:text-white">
                 Admin Profile
               </h3>

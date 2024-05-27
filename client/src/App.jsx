@@ -19,6 +19,7 @@ import EditProduct from "./pages/Admin/EditProduct.jsx";
 import Categories from "./pages/Categories.jsx";
 import SearchPage from "./pages/SearchPage.jsx";
 import Details from "./pages/Details.jsx";
+import CartPage from "./pages/CartPage.jsx";
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
         <Route path="/search-reasults" element={<SearchPage />} />
         <Route path="/categories" element={<Categories />} />
         <Route path="/product-details/:slug" element={<Details />} />
+        <Route path="/cart" element={<CartPage />} />
         <Route path="/dashboard" element={<PrivateRoute />}>
           <Route path="user" element={<Dashboard />} />
         </Route>
