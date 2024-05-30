@@ -68,7 +68,7 @@ function Header() {
                 <ChevronDown className="w-4 h-4" />
               </button>
               {isDropdownOpen && (
-                <div className="absolute right-0 mt-2 w-48 bg-white text-black rounded-md shadow-lg z-10">
+                <div className="absolute right-0 mt-2 w-48 font-medium bg-white text-black rounded-md shadow-lg z-10">
                   <NavLink
                     to={`/dashboard/${auth.user.role === 1 ? "admin" : "user"}`}
                     className="block text-center text-black px-4 py-2 hover:bg-blue-400"
@@ -81,6 +81,12 @@ function Header() {
                   >
                     Log out
                   </button>
+                  <NavLink
+                    to={`/dashboard/${auth.user.role === 1 ? "admin" : "user"}/orders`}
+                    className="block text-center text-black px-4 py-2 hover:bg-blue-400"
+                  >
+                    {auth.user.role === 1 ? "Manage Orders" : "My Orders"}
+                  </NavLink>
                 </div>
               )}
             </div>

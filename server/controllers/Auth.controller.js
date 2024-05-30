@@ -106,3 +106,37 @@ exports.test = (req, res) => {
     res.send({ error });
   }
 };
+
+// update user profile
+exports.updateProfile = async (req, res) => {
+  try {
+    const { name, email, password, phoneNo, address } = req.body;
+    const user = await User.findById(req.user.id);
+    
+    // hashing the password
+    const salt = 10;
+    const hashedPass = await password ? bcrypt.hash(password, salt) : undefined;
+    const updatedUser = await User.findByIdAndUpdate(
+      req.user.id,
+      {
+        name: name || user.name,
+        email: email || user.email,
+        password: hashedPass || user.password,
+        phoneNo: phoneNo || user.phoneNo,
+        address: address || user.address,
+      },
+      { new: true }
+    );
+
+    res
+      .status(200)
+      .json({
+        success: true,
+        message: "Profile updated successfully",
+        updatedUser,
+      });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ success: false, message: "Internal server error" });
+  }
+};

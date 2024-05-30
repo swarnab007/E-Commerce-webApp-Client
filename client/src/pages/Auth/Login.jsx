@@ -60,7 +60,7 @@ const Login = () => {
                   title=""
                   className="font-medium text-black transition-all duration-200 hover:underline"
                 >
-                  Sign Up
+                  Sign in
                 </Link>
               </p>
               <form onSubmit={handleLogin} className="mt-8">

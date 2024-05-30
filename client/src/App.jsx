@@ -20,6 +20,7 @@ import Categories from "./pages/Categories.jsx";
 import SearchPage from "./pages/SearchPage.jsx";
 import Details from "./pages/Details.jsx";
 import CartPage from "./pages/CartPage.jsx";
+import Orders from "./pages/user/Orders.jsx";
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
         <Route path="/cart" element={<CartPage />} />
         <Route path="/dashboard" element={<PrivateRoute />}>
           <Route path="user" element={<Dashboard />} />
+          <Route path="user/orders" element={<Orders />} />
         </Route>
         <Route path="/dashboard" element={<AdminRoute />}>
           <Route path="admin" element={<AdminDashboard />} />
