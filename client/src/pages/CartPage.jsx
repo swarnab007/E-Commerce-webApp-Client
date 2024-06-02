@@ -10,6 +10,8 @@ const CartPage = () => {
   const [cart, setCart] = useCart();
   const [auth, setAuth] = useAuth();
   const navigate = useNavigate();
+  console.log(auth);
+  console.log(cart);
 
   const removeFromCart = (id) => {
     const updatedCart = cart.filter((product) => product._id !== id);
