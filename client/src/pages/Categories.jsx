@@ -5,6 +5,7 @@ import toast from "react-hot-toast";
 import { Prices } from "../components/Prices.jsx";
 import { Link } from "react-router-dom";
 import { useCart } from "../context/Cart.jsx";
+import { useAuth } from "../context/Auth.jsx";
 
 const Categories = () => {
   const [products, setProducts] = useState([]);
@@ -12,6 +13,7 @@ const Categories = () => {
   const [checked, setChecked] = useState([]);
   const [radio, setRadio] = useState("");
   const [cart, setCart] = useCart();
+  const [auth, setAuth] = useAuth();
 
   const getCategories = async () => {
     try {
@@ -72,10 +74,26 @@ const Categories = () => {
     }
   };
 
-  const addToCart = (product) => {
-    const updatedCart = [...cart, product];
-    setCart(updatedCart);
-    toast.success("Product added to cart");
+  const addToCart = async (product) => {
+    try {
+      const { data } = await axios.post(
+        "/api/v1/users/add-to-cart",
+        {
+          slug: product.slug,
+          quantity: 1,
+        },
+        {
+          headers: {
+            Authorization: `${auth.token}`,
+          },
+        }
+      );
+      setCart(data.cart);
+      toast.success("Product added to cart");
+    } catch (error) {
+      console.error(error);
+      toast.error("Failed to add product to cart");
+    }
   };
 
   return (

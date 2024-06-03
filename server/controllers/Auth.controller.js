@@ -1,6 +1,7 @@
 const User = require("../models/user.model.js");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const Product = require("../models/product.model.js");
 
 exports.register = async (req, res) => {
   try {
@@ -141,3 +142,91 @@ exports.updateProfile = async (req, res) => {
   }
 };
 
+exports.addToCart = async (req, res) => {
+  try {
+    const { slug, quantity } = req.body;
+    // Assuming you have middleware to authenticate and attach the user to the request
+
+    const user = await User.findById(req.user.id);
+    console.log(user);
+    console.log("add to cart backend");
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    const product = await Product.findOne({ slug });
+    if (!product) {
+      return res.status(404).json({ message: "Product not found" });
+    }
+
+    const cartItem = user.cart.find(
+      (item) => item.productId.toString() === product._id.toString()
+    );
+    if (cartItem) {
+      cartItem.quantity += quantity;
+    } else {
+      user.cart.push({ productId: product._id, quantity });
+    }
+
+    await user.save();
+    res
+      .status(200)
+      .json({ message: "Product added to cart successfully", cart: user.cart });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+// Remove from cart
+exports.removeFromCart = async (req, res) => {
+  const { slug } = req.body;
+  // Assuming you have middleware to authenticate and attach the user to the request
+
+  try {
+    const user = await User.findById(req.user.id);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    const product = await Product.findOne({ slug });
+    if (!product) {
+      return res.status(404).json({ message: "Product not found" });
+    }
+
+    const cartIndex = user.cart.findIndex(
+      (item) => item.productId.toString() === product._id.toString()
+    );
+    if (cartIndex === -1) {
+      return res.status(404).json({ message: "Product not found in cart" });
+    }
+
+    user.cart.splice(cartIndex, 1);
+    await user.save();
+
+    res.status(200).json({
+      message: "Product removed from cart successfully",
+      cart: user.cart,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+// Get cart details
+exports.getCartDetails = async (req, res) => {
+  try {
+    // Assuming you have middleware to authenticate and attach the user to the request
+
+    const user = await User.findById(req.user.id).populate("cart.productId");
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.status(200).json({ cart: user.cart });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};

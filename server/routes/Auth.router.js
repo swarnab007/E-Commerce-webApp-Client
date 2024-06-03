@@ -6,6 +6,7 @@ const {
   updateProfile,
   addToCart,
   removeFromCart,
+  getCartDetails,
 } = require("../controllers/Auth.controller.js");
 const {
   requiresignIn,
@@ -31,5 +32,11 @@ router.get("/auth-user", requiresignIn, (req, res) => {
 router.get("/auth-admin", requiresignIn, adminAccess, (req, res) => {
   res.status(200).send({ ok: true });
 });
+// POST : add to cart
+router.post("/add-to-cart", requiresignIn, addToCart);
+// POST : remove from cart
+router.post("/remove-from-cart", requiresignIn, removeFromCart);
+// GET : get cart details
+router.get('/cart', requiresignIn, getCartDetails);
 
 module.exports = router;

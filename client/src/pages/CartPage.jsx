@@ -1,27 +1,58 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Trash, Heart } from "lucide-react";
-import { useCart } from "../context/Cart.jsx";
+import { useAuth } from "../context/Auth.jsx";
 import Layout from "../components/layout/Layout.jsx";
 import { toast } from "react-hot-toast";
-import { useAuth } from "../context/Auth.jsx";
 import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const CartPage = () => {
-  const [cart, setCart] = useCart();
+  const [cart, setCart] = useState([]);
   const [auth, setAuth] = useAuth();
   const navigate = useNavigate();
-  console.log(auth);
-  console.log(cart);
 
-  const removeFromCart = (id) => {
-    const updatedCart = cart.filter((product) => product._id !== id);
-    setCart(updatedCart);
-    localStorage.setItem("cart", JSON.stringify(updatedCart));
-    toast.success("Product removed from cart");
+  useEffect(() => {
+    const fetchCartDetails = async () => {
+      try {
+        const { data } = await axios.get("/api/v1/users/cart", {
+          headers: {
+            Authorization: `${auth.token}`,
+          },
+        });
+        setCart(data.cart);
+      } catch (error) {
+        console.error(error);
+        toast.error("Failed to fetch cart details");
+      }
+    };
+    if (auth.user) {
+      fetchCartDetails();
+    }
+  }, [auth]);
+
+  const removeFromCart = async (productId) => {
+    try {
+      const { data } = await axios.post(
+        "/api/v1/users/remove-from-cart",
+        { slug: productId },
+        {
+          headers: {
+            Authorization: `Bearer ${auth.token}`,
+          },
+        }
+      );
+      setCart(data.cart);
+      toast.success("Product removed from cart");
+    } catch (error) {
+      console.error(error);
+      toast.error("Failed to remove product from cart");
+    }
   };
 
   const getTotalAmount = () => {
-    return cart.reduce((total, product) => total + product.price, 0).toFixed(2);
+    return cart
+      .reduce((total, item) => total + item.productId.price * item.quantity, 0)
+      .toFixed(2);
   };
 
   return (
@@ -33,40 +64,48 @@ const CartPage = () => {
               Your Cart : {cart.length} items
             </h2>
             <ul className="space-y-6">
-              {cart.map((product) => (
+              {cart.map((item) => (
                 <li
-                  key={product._id}
+                  key={item.productId._id}
                   className="flex flex-col sm:flex-row justify-between items-center bg-white rounded-lg shadow-md p-4 border border-gray-200"
                 >
                   <div className="flex w-full sm:w-1/3">
                     <img
-                      src={`/api/v1/products/product/photo/${product._id}`}
-                      alt={product.name}
+                      src={`/api/v1/products/product/photo/${item.productId._id}`}
+                      alt={item.productId.name}
                       className="h-44 w-44 object-contain mx-auto"
                     />
                   </div>
                   <div className="flex flex-col w-full sm:w-2/3 space-y-2">
                     <div className="flex justify-between items-center">
                       <h3 className="text-lg font-semibold">
-                        Name: {product.name}
+                        Name: {item.productId.name}
                       </h3>
-                      <p className="text-lg font-semibold">${product.price}</p>
+                      <p className="text-lg font-semibold">
+                        ${item.productId.price}
+                      </p>
                     </div>
                     <p className="text-md text-left text-gray-600">
-                      Description: {product.description}
+                      Description: {item.productId.description}
                     </p>
                     <div className="flex justify-between">
-                      <button
-                        onClick={() => removeFromCart(product._id)}
-                        type="submit"
-                        className="flex items-center mt-6 text-red-600 hover:text-red-800"
-                      >
-                        <Trash size={16} />
-                        <span className="ml-1 font-medium text-lg">Remove</span>
-                      </button>
+                      <div className="flex items-center space-x-4">
+                        <button
+                          onClick={() => removeFromCart(item.productId._id)}
+                          className="flex items-center text-red-600 hover:text-red-800"
+                        >
+                          <Trash size={16} />
+                          <span className="ml-1 font-medium text-lg">
+                            Remove
+                          </span>
+                        </button>
+                        <span className="font-medium">
+                          Quantity: {item.quantity}
+                        </span>
+                      </div>
                       <button
                         type="button"
-                        className="flex mt-6 items-center text-blue-600 hover:text-blue-800"
+                        className="flex items-center text-blue-600 hover:text-blue-800"
                       >
                         <Heart size={16} />
                         <span className="ml-1">Add to favorites</span>
