@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "../../App.css";
 import { Menu, X, ChevronDown } from "lucide-react";
 import { NavLink, Link } from "react-router-dom";
@@ -6,6 +6,7 @@ import { useAuth } from "../../context/Auth.jsx";
 import toast from "react-hot-toast";
 import SearchInput from "../Form/SearchInput.jsx";
 import { useCart } from "../../context/Cart.jsx";
+import axios from "axios";
 
 const menuItems = [
   { name: "Home", href: "/" },
@@ -27,6 +28,25 @@ function Header() {
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
+
+  useEffect(() => {
+    const fetchCartDetails = async () => {
+      try {
+        const { data } = await axios.get("/api/v1/users/cart", {
+          headers: {
+            Authorization: `${auth.token}`,
+          },
+        });
+        setCart(data.cart);
+      } catch (error) {
+        console.error(error);
+        toast.error("Failed to fetch cart details");
+      }
+    };
+    if (auth.user) {
+      fetchCartDetails();
+    }
+  }, [auth]);
 
   const handleLogout = () => {
     setAuth({

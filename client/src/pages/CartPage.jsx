@@ -28,16 +28,16 @@ const CartPage = () => {
     if (auth.user) {
       fetchCartDetails();
     }
-  }, [auth]);
+  }, [auth, cart]);
 
   const removeFromCart = async (productId) => {
     try {
       const { data } = await axios.post(
         "/api/v1/users/remove-from-cart",
-        { slug: productId },
+        { productId },
         {
           headers: {
-            Authorization: `Bearer ${auth.token}`,
+            Authorization: `${auth.token}`,
           },
         }
       );

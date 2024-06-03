@@ -180,8 +180,7 @@ exports.addToCart = async (req, res) => {
 
 // Remove from cart
 exports.removeFromCart = async (req, res) => {
-  const { slug } = req.body;
-  // Assuming you have middleware to authenticate and attach the user to the request
+  const { productId } = req.body;
 
   try {
     const user = await User.findById(req.user.id);
@@ -189,14 +188,10 @@ exports.removeFromCart = async (req, res) => {
       return res.status(404).json({ message: "User not found" });
     }
 
-    const product = await Product.findOne({ slug });
-    if (!product) {
-      return res.status(404).json({ message: "Product not found" });
-    }
-
     const cartIndex = user.cart.findIndex(
-      (item) => item.productId.toString() === product._id.toString()
+      (item) => item.productId.toString() === productId.toString()
     );
+
     if (cartIndex === -1) {
       return res.status(404).json({ message: "Product not found in cart" });
     }
