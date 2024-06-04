@@ -225,3 +225,32 @@ exports.getCartDetails = async (req, res) => {
     res.status(500).json({ message: "Internal server error" });
   }
 };
+
+// delete cart items after payment
+exports.deleteCartItems = async (req, res) => {
+  const userId = req.user._id;
+
+  try {
+    // Find the user by ID
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return res
+        .status(404)
+        .json({ success: false, message: "User not found" });
+    }
+
+    // Clear the cart items
+    user.cart = [];
+
+    // Save the updated user data
+    await user.save();
+
+    return res.status(200).json({ success: true, message: "No items in cart" });
+  } catch (error) {
+    console.error("Error deleting cart items:", error);
+    return res
+      .status(500)
+      .json({ success: false, message: "Failed to delete cart items", error });
+  }
+};

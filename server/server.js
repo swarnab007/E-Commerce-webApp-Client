@@ -18,12 +18,14 @@ connectDB();
 const app = express();
 
 // cors
-app.use(cors({
-  origin: process.env.CORS_ORIGIN,
-  credentials: true
-}))
-app.use(cookieParser());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(
+  cors({
+    origin: process.env.CORS_ORIGIN,
+    credentials: true,
+  })
+);
+app.use(bodyParser.json({ limit: "50mb" })); // Increase to 50mb or any value as needed
+app.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
 
 // middlewares
 app.use(express.json());

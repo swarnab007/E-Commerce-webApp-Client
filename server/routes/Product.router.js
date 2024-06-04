@@ -10,6 +10,8 @@ const {
   filterProduct,
   searchProduct,
   similarProducts,
+  generateToken,
+  processPayment,
 } = require("../controllers/Product.controller");
 const {
   requiresignIn,
@@ -61,5 +63,11 @@ router.get("/search-product/:keyword", searchProduct);
 
 // get similar products
 router.get("/similar-products/:pid/:cid", similarProducts);
+
+// get braintree token
+router.get("/braintree-token", generateToken);
+
+// make payment
+router.post("/braintree/payment", requiresignIn, processPayment);
 
 module.exports = router;

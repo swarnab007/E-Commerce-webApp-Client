@@ -5,10 +5,13 @@ import Layout from "../components/layout/Layout.jsx";
 import { toast } from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import DropIn from "braintree-web-drop-in-react";
 
 const CartPage = () => {
   const [cart, setCart] = useState([]);
-  const [auth, setAuth] = useAuth();
+  const [auth] = useAuth();
+  const [clientToken, setClientToken] = useState(null);
+  const [instance, setInstance] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -25,10 +28,10 @@ const CartPage = () => {
         toast.error("Failed to fetch cart details");
       }
     };
-    if (auth.user) {
+    if (auth.user, cart) {
       fetchCartDetails();
     }
-  }, [auth, cart]);
+  }, [auth]);
 
   const removeFromCart = async (productId) => {
     try {
@@ -53,6 +56,49 @@ const CartPage = () => {
     return cart
       .reduce((total, item) => total + item.productId.price * item.quantity, 0)
       .toFixed(2);
+  };
+
+  const getToken = async () => {
+    try {
+      const { data } = await axios.get("/api/v1/products/braintree-token");
+      setClientToken(data.clientToken);
+    } catch (error) {
+      console.error("Failed to fetch payment token", error);
+      toast.error("Failed to fetch payment token");
+    }
+  };
+
+  useEffect(() => {
+    if (auth?.token) {
+      getToken();
+    }
+  }, [auth?.token]);
+
+  const paymentHandler = async () => {
+    if (!instance) {
+      toast.error("Payment instance is not ready. Please try again.");
+      return;
+    }
+
+    try {
+      const { nonce } = await instance.requestPaymentMethod();
+      const { data } = await axios.post("/api/v1/products/braintree/payment", {
+        nonce,
+        cart,
+      });
+      toast.success("Payment successful");
+      setCart([]);
+      console.log(cart);
+      await axios.post("/api/v1/delete-cart-items", null, {
+        headers: {
+          Authorization: `${auth.token}`,
+        },
+      });
+      // navigate("/order-success");
+    } catch (error) {
+      console.error("Payment error", error);
+      toast.error("Payment failed");
+    }
   };
 
   return (
@@ -131,20 +177,38 @@ const CartPage = () => {
                   Total amount :{" "}
                   <span className="font-bold text-xl">₹{getTotalAmount()}</span>
                 </p>
-                <div className="flex justify-end space-x-6 mt-6">
-                  <button
-                    type="submit"
-                    onClick={() => navigate("/")}
-                    className="text-white bg-gradient-to-r from-teal-400 via-teal-500 to-teal-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-teal-300 dark:focus:ring-teal-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
-                  >
-                    Continue Shopping
-                  </button>
-                  <button
-                    type="button"
-                    className="text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-lg text-md px-5 py-2.5 text-center"
-                  >
-                    Proceed
-                  </button>
+                <div className="flex justify-end mt-6">
+                  <div className="mt-2 space-x-6 space-y-6">
+                    {!auth?.token || !cart.length ? (
+                      ""
+                    ) : (
+                      <>
+                        {clientToken && (
+                          <DropIn
+                            options={{
+                              authorization: clientToken,
+                              paypal: { flow: "vault" },
+                            }}
+                            onInstance={(instance) => setInstance(instance)}
+                          />
+                        )}
+                        <button
+                          type="submit"
+                          onClick={paymentHandler}
+                          className="text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-lg text-md px-5 py-2.5 text-center"
+                        >
+                          Make Payment
+                        </button>
+                      </>
+                    )}
+                    <button
+                      type="submit"
+                      onClick={() => navigate("/")}
+                      className="text-white bg-gradient-to-r from-teal-400 via-teal-500 to-teal-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-teal-300 dark:focus:ring-teal-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                    >
+                      Continue Shopping
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>

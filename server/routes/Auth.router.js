@@ -7,6 +7,7 @@ const {
   addToCart,
   removeFromCart,
   getCartDetails,
+  deleteCartItems,
 } = require("../controllers/Auth.controller.js");
 const {
   requiresignIn,
@@ -38,5 +39,7 @@ router.post("/add-to-cart", requiresignIn, addToCart);
 router.post("/remove-from-cart", requiresignIn, removeFromCart);
 // GET : get cart details
 router.get('/cart', requiresignIn, getCartDetails);
+// POST : 
+router.post('/api/v1/delete-cart-items', deleteCartItems);
 
 module.exports = router;
