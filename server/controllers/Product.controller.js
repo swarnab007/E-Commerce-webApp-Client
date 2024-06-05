@@ -252,10 +252,13 @@ exports.processPayment = async (req, res) => {
     });
 
     if (transactionResult.success) {
+      // Extract product IDs from cart
+      const productIds = cart.map((item) => item.productId._id);
+
       // Create order
       const order = new Order({
-        products: cart,
-        purchaser: req.user._id,
+        products: productIds, // Use extracted product IDs
+        purchaser: req.user.id,
         payment: transactionResult,
       });
 

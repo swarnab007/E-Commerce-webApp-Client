@@ -2,6 +2,7 @@ const User = require("../models/user.model.js");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const Product = require("../models/product.model.js");
+const Order = require("../models/order.model.js");
 
 exports.register = async (req, res) => {
   try {
@@ -228,7 +229,7 @@ exports.getCartDetails = async (req, res) => {
 
 // delete cart items after payment
 exports.deleteCartItems = async (req, res) => {
-  const userId = req.user._id;
+  const userId = req.user.id;
 
   try {
     // Find the user by ID
@@ -252,5 +253,63 @@ exports.deleteCartItems = async (req, res) => {
     return res
       .status(500)
       .json({ success: false, message: "Failed to delete cart items", error });
+  }
+};
+
+exports.getOrders = async (req, res) => {
+  try {
+    const orders = await Order.find({ purchaser: req.user.id })
+      .populate({
+        path: "products", // Directly populate the products array
+        select: "name description price image", // Select the fields you want
+      })
+      .populate("purchaser", "name");
+
+    console.log("Orders being sent:", orders); // Log orders being sent
+    res.status(200).send({ success: true, orders });
+  } catch (error) {
+    console.error("Error fetching orders:", error);
+    res.status(500).json({ message: "Failed to get orders" });
+  }
+};
+
+// admin orders
+// get all orders
+exports.getAllOrders = async (req, res) => {
+  try {
+    const orders = await Order.find({})
+      .populate({
+        path: "products",
+        select: "name description price image",
+      })
+      .populate("purchaser", "name")
+      .sort({ createdAt: -1 });
+
+    res.status(200).send({ success: true, orders });
+  } catch (error) {
+    console.error("Error fetching orders:", error);
+    res
+      .status(500)
+      .json({ success: false, message: "Failed to get orders", error });
+  }
+};
+
+// change status of order
+exports.changeOrderStatus = async (req, res) => {
+  const { orderId } = req.params;
+  const { status } = req.body;
+  try {
+    const order = await Order.findByIdAndUpdate(
+      orderId,
+      { status },
+      { new: true }
+    );
+    res
+      .status(200)
+      .json({ success: true, message: "Status changed successfully", order });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ success: false, message: "Failed to update status", error });
   }
 };

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import AdminMenu from "../../components/layout/AdminMenu";
-import Layout from "../../components/layout/Layout";
+import Layout from "../../components/layout/Layout.jsx";
 import { useAuth } from "../../context/Auth";
 
 const AdminDashboard = () => {

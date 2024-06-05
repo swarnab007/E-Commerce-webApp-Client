@@ -3,7 +3,7 @@ const User = require("../models/user.model.js");
 
 // protected routes
 exports.requiresignIn = async (req, res, next) => {
-    //console.log("Hello from requiresignIn middleware");
+    // console.log("Hello from requiresignIn middleware");
   try {
     const decode = jwt.verify(
       req.headers.authorization,

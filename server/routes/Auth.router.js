@@ -8,6 +8,9 @@ const {
   removeFromCart,
   getCartDetails,
   deleteCartItems,
+  getOrders,
+  getAllOrders,
+  changeOrderStatus,
 } = require("../controllers/Auth.controller.js");
 const {
   requiresignIn,
@@ -38,8 +41,19 @@ router.post("/add-to-cart", requiresignIn, addToCart);
 // POST : remove from cart
 router.post("/remove-from-cart", requiresignIn, removeFromCart);
 // GET : get cart details
-router.get('/cart', requiresignIn, getCartDetails);
-// POST : 
-router.post('/api/v1/delete-cart-items', deleteCartItems);
+router.get("/cart", requiresignIn, getCartDetails);
+// POST :
+router.post("/delete-cart-items", requiresignIn, deleteCartItems);
+// GET : user orders
+router.get("/orders", requiresignIn, getOrders);
+// GET : all orders
+router.get("/all-orders", requiresignIn, adminAccess, getAllOrders);
+// PUT: update order status
+router.put(
+  "/order-status/:orderId",
+  requiresignIn,
+  adminAccess,
+  changeOrderStatus
+);
 
 module.exports = router;

@@ -23,12 +23,13 @@ const CartPage = () => {
           },
         });
         setCart(data.cart);
+        console.log(cart);
       } catch (error) {
-        console.error(error);
+        console.error("Error fetching cart details:", error);
         toast.error("Failed to fetch cart details");
       }
     };
-    if (auth.user, cart) {
+    if (auth.user) {
       fetchCartDetails();
     }
   }, [auth]);
@@ -44,10 +45,11 @@ const CartPage = () => {
           },
         }
       );
+      console.log("Cart after removal:", data);
       setCart(data.cart);
       toast.success("Product removed from cart");
     } catch (error) {
-      console.error(error);
+      console.error("Error removing product from cart:", error);
       toast.error("Failed to remove product from cart");
     }
   };
@@ -61,9 +63,10 @@ const CartPage = () => {
   const getToken = async () => {
     try {
       const { data } = await axios.get("/api/v1/products/braintree-token");
+      console.log("Braintree token:", data);
       setClientToken(data.clientToken);
     } catch (error) {
-      console.error("Failed to fetch payment token", error);
+      console.error("Error fetching payment token:", error);
       toast.error("Failed to fetch payment token");
     }
   };
@@ -86,17 +89,22 @@ const CartPage = () => {
         nonce,
         cart,
       });
+      console.log("Payment response:", data);
       toast.success("Payment successful");
-      setCart([]);
-      console.log(cart);
-      await axios.post("/api/v1/delete-cart-items", null, {
+
+     // Clear cart on the server
+      await axios.post("/api/v1/users/delete-cart-items", {
         headers: {
           Authorization: `${auth.token}`,
         },
       });
-      // navigate("/order-success");
+
+      // Clear cart locally
+      setCart([]);
+      navigate("/dashboard/user/orders");
     } catch (error) {
-      console.error("Payment error", error);
+      console.error("Payment error:", error);
+      console.log("Payment error response:", error.response ? error.response.data : error.message);
       toast.error("Payment failed");
     }
   };

@@ -65,7 +65,7 @@ router.get("/search-product/:keyword", searchProduct);
 router.get("/similar-products/:pid/:cid", similarProducts);
 
 // get braintree token
-router.get("/braintree-token", generateToken);
+router.get("/braintree-token", requiresignIn, generateToken);
 
 // make payment
 router.post("/braintree/payment", requiresignIn, processPayment);
