@@ -18,12 +18,19 @@ connectDB();
 const app = express();
 
 // cors
-app.use(
-  cors({
-    origin: process.env.CORS_ORIGIN,
-    credentials: true,
-  })
-);
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin','http://localhost:5173' );
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization,token');
+  res.header('Access-Control-Allow-Credentials', 'true'); // Allow credentials
+
+  // Handle preflight requests
+  if (req.method === 'OPTIONS') {
+    res.sendStatus(200);
+  } else {
+    next();
+  }
+});
 app.use(bodyParser.json({ limit: "50mb" })); // Increase to 50mb or any value as needed
 app.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
 

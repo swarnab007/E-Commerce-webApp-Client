@@ -4,6 +4,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import axios from "axios";
 import { useAuth } from "../../context/Auth.jsx";
+import { SERVER_URL } from "../../const.js";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -17,7 +18,7 @@ const Login = () => {
     console.log(email, password);
     try {
       const { data } = await axios.post(
-        "/api/v1/users/login",
+        `${SERVER_URL}/api/v1/users/login`,
         {
           email,
           password,

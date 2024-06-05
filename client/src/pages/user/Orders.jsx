@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Layout from "../../components/layout/Layout.jsx";
 import { useAuth } from "../../context/Auth.jsx";
 import axios from "axios";
+import { SERVER_URL } from "../../const.js";
 
 const Orders = () => {
   const [orders, setOrders] = useState([]);
@@ -9,7 +10,7 @@ const Orders = () => {
 
   const getOrders = async () => {
     try {
-      const { data } = await axios.get("/api/v1/users/orders");
+      const { data } = await axios.get(`${SERVER_URL}/api/v1/users/orders`);
       console.log("Orders fetched:", data.orders); // Log fetched data
       setOrders(data.orders);
     } catch (error) {
@@ -66,7 +67,7 @@ const Orders = () => {
                   className="flex flex-col md:flex-row items-center justify-between p-4 border rounded-md shadow-sm bg-gray-50"
                 >
                   <img
-                    src={`/api/v1/products/product/photo/${p._id}`}
+                    src={`${SERVER_URL}/api/v1/products/product/photo/${p._id}`}
                     alt={p.name}
                     className="h-[200px] w-[200px] rounded-t-md object-contain"
                   />

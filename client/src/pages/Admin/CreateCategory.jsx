@@ -5,6 +5,7 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import CategoryForm from "../../components/Form/CategoryForm.jsx";
 import { Modal } from "antd";
+import { SERVER_URL } from "../../const.js";
 
 const CreateCategory = () => {
   const [category, setCategory] = useState([]);
@@ -17,7 +18,7 @@ const CreateCategory = () => {
     e.preventDefault();
     try {
       const { data } = await axios.post(
-        "/api/v1/categories/create-category",
+        `${SERVER_URL}/api/v1/categories/create-category`,
         { name },
         {
           headers: {
@@ -39,7 +40,7 @@ const CreateCategory = () => {
     e.preventDefault();
     try {
       await axios.put(
-        `/api/v1/categories/update-category/${selected}`,
+        `${SERVER_URL}/api/v1/categories/update-category/${selected}`,
         { name: updatedName },
         {
           headers: {
@@ -60,7 +61,7 @@ const CreateCategory = () => {
   // Delete category
   const deleteHandler = async (id) => {
     try {
-      await axios.delete(`/api/v1/categories/delete-category/${id}`);
+      await axios.delete(`${SERVER_URL}/api/v1/categories/delete-category/${id}`);
       toast.success(`Category deleted successfully`);
       getCategories();
     } catch (error) {
@@ -72,7 +73,7 @@ const CreateCategory = () => {
   // Fetch all categories
   const getCategories = async () => {
     try {
-      const { data } = await axios.get("/api/v1/categories/categories");
+      const { data } = await axios.get(`${SERVER_URL}/api/v1/categories/categories`);
       setCategory(data.categories);
     } catch (error) {
       console.log(error);

@@ -3,6 +3,7 @@ import Layout from "../../components/layout/Layout.jsx";
 import { useAuth } from "../../context/Auth.jsx";
 import axios from "axios";
 import { toast } from "react-hot-toast";
+import { SERVER_URL } from "../../const.js";
 
 const Dashboard = () => {
   const [auth, setAuth] = useAuth();
@@ -26,7 +27,7 @@ const Dashboard = () => {
     e.preventDefault();
     try {
       const { data } = await axios.post(
-        "/api/v1/users/update",
+        `${SERVER_URL}/api/v1/users/update`,
         {
           name,
           email,

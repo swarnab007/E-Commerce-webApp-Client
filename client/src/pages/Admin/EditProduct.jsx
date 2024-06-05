@@ -5,6 +5,7 @@ import toast from "react-hot-toast";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import { Modal } from "antd";
+import { SERVER_URL } from "../../const.js";
 
 const UpdateProduct = () => {
   const [category, setCategory] = useState("");
@@ -23,7 +24,7 @@ const UpdateProduct = () => {
   const getProduct = async () => {
     try {
       const { data } = await axios.get(
-        `/api/v1/products/product/${params.slug}`
+        `${SERVER_URL}/api/v1/products/product/${params.slug}`
       );
       console.log(data.product);
       setName(data.product.name);
@@ -59,7 +60,7 @@ const UpdateProduct = () => {
       }
 
       const { data } = await axios.put(
-        `/api/v1/products/update-product/${id}`,
+        `${SERVER_URL}/api/v1/products/update-product/${id}`,
         formData,
         {
           headers: {
@@ -85,7 +86,7 @@ const UpdateProduct = () => {
   // get all categories
   const getCategories = async () => {
     try {
-      const { data } = await axios.get("/api/v1/categories/categories");
+      const { data } = await axios.get(`${SERVER_URL}/api/v1/categories/categories`);
       setCategories(data.categories);
     } catch (error) {
       console.log(error);
@@ -104,7 +105,7 @@ const UpdateProduct = () => {
       onOk: async () => {
         try {
           const { data } = await axios.delete(
-            `/api/v1/products/delete-product/${id}`
+            `${SERVER_URL}/api/v1/products/delete-product/${id}`
           );
           toast.success(`${data.message}`);
           navigate("/dashboard/admin/products");

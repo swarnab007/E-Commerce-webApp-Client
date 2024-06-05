@@ -6,6 +6,7 @@ import { toast } from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import DropIn from "braintree-web-drop-in-react";
+import { SERVER_URL } from "../const.js";
 
 const CartPage = () => {
   const [cart, setCart] = useState([]);
@@ -17,7 +18,7 @@ const CartPage = () => {
   useEffect(() => {
     const fetchCartDetails = async () => {
       try {
-        const { data } = await axios.get("/api/v1/users/cart", {
+        const { data } = await axios.get(`${SERVER_URL}/api/v1/users/cart`, {
           headers: {
             Authorization: `${auth.token}`,
           },
@@ -37,7 +38,7 @@ const CartPage = () => {
   const removeFromCart = async (productId) => {
     try {
       const { data } = await axios.post(
-        "/api/v1/users/remove-from-cart",
+        `${SERVER_URL}/api/v1/users/remove-from-cart`,
         { productId },
         {
           headers: {
@@ -62,7 +63,7 @@ const CartPage = () => {
 
   const getToken = async () => {
     try {
-      const { data } = await axios.get("/api/v1/products/braintree-token");
+      const { data } = await axios.get(`${SERVER_URL}/api/v1/products/braintree-token`);
       console.log("Braintree token:", data);
       setClientToken(data.clientToken);
     } catch (error) {
@@ -85,7 +86,7 @@ const CartPage = () => {
 
     try {
       const { nonce } = await instance.requestPaymentMethod();
-      const { data } = await axios.post("/api/v1/products/braintree/payment", {
+      const { data } = await axios.post(`${SERVER_URL}/api/v1/products/braintree/payment`, {
         nonce,
         cart,
       });
@@ -93,7 +94,7 @@ const CartPage = () => {
       toast.success("Payment successful");
 
      // Clear cart on the server
-      await axios.post("/api/v1/users/delete-cart-items", {
+      await axios.post(`${SERVER_URL}/api/v1/users/delete-cart-items`, {
         headers: {
           Authorization: `${auth.token}`,
         },
@@ -125,7 +126,7 @@ const CartPage = () => {
                 >
                   <div className="flex w-full sm:w-1/3">
                     <img
-                      src={`/api/v1/products/product/photo/${item.productId._id}`}
+                      src={`${SERVER_URL}/api/v1/products/product/photo/${item.productId._id}`}
                       alt={item.productId.name}
                       className="h-44 w-44 object-contain mx-auto"
                     />

@@ -6,6 +6,7 @@ import { Prices } from "../components/Prices.jsx";
 import { Link } from "react-router-dom";
 import { useCart } from "../context/Cart.jsx";
 import { useAuth } from "../context/Auth.jsx";
+import { SERVER_URL } from "../const.js";
 
 const Categories = () => {
   const [products, setProducts] = useState([]);
@@ -17,7 +18,7 @@ const Categories = () => {
 
   const getCategories = async () => {
     try {
-      const { data } = await axios.get("/api/v1/categories/categories");
+      const { data } = await axios.get(`${SERVER_URL}/api/v1/categories/categories`);
       setCategories(data.categories);
     } catch (error) {
       console.log(error);
@@ -31,7 +32,7 @@ const Categories = () => {
 
   const getProducts = async () => {
     try {
-      const { data } = await axios.get("/api/v1/products/all-products");
+      const { data } = await axios.get(`${SERVER_URL}/api/v1/products/all-products`);
       setProducts(data.products);
     } catch (error) {
       console.error(error);
@@ -63,7 +64,7 @@ const Categories = () => {
 
   const getFilteredProducts = async () => {
     try {
-      const { data } = await axios.post("/api/v1/products/filter-product", {
+      const { data } = await axios.post(`${SERVER_URL}/api/v1/products/filter-product`, {
         checked,
         radio,
       });
@@ -77,7 +78,7 @@ const Categories = () => {
   const addToCart = async (product) => {
     try {
       const { data } = await axios.post(
-        "/api/v1/users/add-to-cart",
+        `${SERVER_URL}/api/v1/users/add-to-cart`,
         {
           slug: product.slug,
           quantity: 1,
@@ -192,7 +193,7 @@ const Categories = () => {
                 className="w-full rounded-md border shadow-sm hover:shadow-lg transition-shadow duration-300"
               >
                 <img
-                  src={`/api/v1/products/product/photo/${p._id}`}
+                  src={`${SERVER_URL}/api/v1/products/product/photo/${p._id}`}
                   alt={p.name}
                   className="h-[200px] w-full rounded-t-md object-contain"
                 />

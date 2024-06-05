@@ -4,6 +4,7 @@ import AdminMenu from "../../components/layout/AdminMenu.jsx";
 import toast from "react-hot-toast";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { SERVER_URL } from "../../const.js";
 
 const CreateProduct = () => {
   const [category, setCategory] = useState("");
@@ -31,7 +32,7 @@ const CreateProduct = () => {
       formData.append("image", image);
 
       const { data } = await axios.post(
-        "/api/v1/products/create-product",
+        `${SERVER_URL}/api/v1/products/create-product`,
         formData,
         {
           headers: {
@@ -57,7 +58,7 @@ const CreateProduct = () => {
 
   const getCategories = async () => {
     try {
-      const { data } = await axios.get("/api/v1/categories/categories");
+      const { data } = await axios.get(`${SERVER_URL}/api/v1/categories/categories`);
       setCategories(data.categories);
     } catch (error) {
       console.log(error);

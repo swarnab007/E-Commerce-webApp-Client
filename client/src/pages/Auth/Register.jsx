@@ -4,6 +4,7 @@ import { ArrowRight } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import axios from "axios";
+import { SERVER_URL } from "../../const.js";
 
 const Register = () => {
   const [name, setName] = useState("");
@@ -18,7 +19,7 @@ const Register = () => {
     console.log(name, email, password, phoneNo, address);
     try {
       const { data } = await axios.post(
-        "/api/v1/users/register",
+        `${SERVER_URL}/api/v1/users/register`,
         {
           name,
           email,

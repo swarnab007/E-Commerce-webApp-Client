@@ -2,6 +2,7 @@ import React from "react";
 import { useSearch } from "../context/Search.jsx";
 import Layout from "../components/layout/Layout.jsx";
 import { Link } from "react-router-dom";
+import { SERVER_URL } from "../const.js";
 
 const SearchPage = () => {
   const [search, setSearch] = useSearch();
@@ -21,7 +22,7 @@ const SearchPage = () => {
             className="w-full rounded-md border shadow-sm hover:shadow-lg transition-shadow duration-300"
           >
             <img
-              src={`/api/v1/products/product/photo/${p._id}`}
+              src={`${SERVER_URL}/api/v1/products/product/photo/${p._id}`}
               alt={p.name}
               className="h-[200px] w-full rounded-t-md object-cover"
             />

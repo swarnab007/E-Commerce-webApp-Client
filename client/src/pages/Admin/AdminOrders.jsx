@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Layout from "../../components/layout/Layout.jsx";
 import axios from "axios";
+import { SERVER_URL } from "../../const.js";
 
 const AdminOrders = () => {
   const [status, setStatus] = useState([
@@ -15,7 +16,7 @@ const AdminOrders = () => {
 
   const getOrders = async () => {
     try {
-      const { data } = await axios.get("/api/v1/users/all-orders");
+      const { data } = await axios.get(`${SERVER_URL}/api/v1/users/all-orders`);
       setOrders(data.orders);
     } catch (error) {
       console.error("Error fetching orders:", error);
@@ -30,7 +31,7 @@ const AdminOrders = () => {
     console.log(value);
     try {
       const { data } = await axios.put(
-        `/api/v1/users/order-status/${orderId}`,
+        `${SERVER_URL}/api/v1/users/order-status/${orderId}`,
         {
           status: value,
         }
@@ -104,7 +105,7 @@ const AdminOrders = () => {
                     className="flex flex-col md:flex-row items-center justify-between p-4 border rounded-md shadow-sm bg-gray-50"
                   >
                     <img
-                      src={`/api/v1/products/product/photo/${p._id}`}
+                      src={`${SERVER_URL}/api/v1/products/product/photo/${p._id}`}
                       alt={p.name}
                       className="h-[200px] w-[200px] rounded-t-md object-contain"
                     />

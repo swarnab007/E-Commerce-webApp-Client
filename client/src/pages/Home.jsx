@@ -5,13 +5,14 @@ import axios from "axios";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
 import { Link } from "react-router-dom";
+import { SERVER_URL } from "../const";
 
 const Home = () => {
   const [products, setProducts] = useState([]);
 
   const getProducts = async () => {
     try {
-      const { data } = await axios.get("/api/v1/products/all-products");
+      const { data } = await axios.get(`${SERVER_URL}/api/v1/products/all-products`);
       setProducts(data.products);
     } catch (error) {
       console.error(error);

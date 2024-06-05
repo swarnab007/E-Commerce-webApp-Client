@@ -6,6 +6,7 @@ import Layout from "../components/layout/Layout";
 import { Link } from "react-router-dom";
 import { useCart } from "../context/Cart";
 import { toast } from "react-hot-toast";
+import { SERVER_URL } from "../const";
 
 const Details = () => {
   const [product, setProduct] = useState({});
@@ -17,7 +18,7 @@ const Details = () => {
   const getProduct = async () => {
     try {
       const { data } = await axios.get(
-        `/api/v1/products/product/${params.slug}`
+        `${SERVER_URL}/api/v1/products/product/${params.slug}`
       );
       setProduct(data.product);
       getSimilarProducts(data?.product._id, data?.product.category._id);
@@ -34,7 +35,7 @@ const Details = () => {
   const getSimilarProducts = async (pid, cid) => {
     try {
       const { data } = await axios.get(
-        `/api/v1/products/similar-products/${pid}/${cid}`
+        `${SERVER_URL}/api/v1/products/similar-products/${pid}/${cid}`
       );
       setSimilarProducts(data.products);
       console.log(similarProducts);
@@ -54,7 +55,7 @@ const Details = () => {
             <div className="flex flex-col lg:flex-row items-start bg-white rounded-lg shadow-lg">
               <div className="w-full lg:w-1/2 overflow-hidden">
                 <img
-                  src={`/api/v1/products/product/photo/${product._id}`}
+                  src={`${SERVER_URL}/api/v1/products/product/photo/${product._id}`}
                   alt={product.name}
                   className="h-[400px] w-full object-contain transform transition-transform duration-500 ease-in-out hover:scale-110 rounded-t-lg lg:rounded-l-lg lg:rounded-t-none"
                 />
@@ -103,7 +104,7 @@ const Details = () => {
                     className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300"
                   >
                     <img
-                      src={`/api/v1/products/product/photo/${p._id}`}
+                      src={`${SERVER_URL}/api/v1/products/product/photo/${p._id}`}
                       alt={p.name}
                       className="h-[200px] w-full object-contain rounded-t-lg"
                     />

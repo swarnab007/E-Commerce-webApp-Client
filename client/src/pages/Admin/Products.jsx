@@ -4,12 +4,13 @@ import Layout from "../../components/layout/Layout.jsx";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
+import { SERVER_URL } from "../../const.js";
 
 const Products = () => {
   const [products, setProducts] = React.useState([]);
   const getProducts = async () => {
     try {
-      const { data } = await axios("/api/v1/products/all-products");
+      const { data } = await axios(`${SERVER_URL}/api/v1/products/all-products`);
       setProducts(data.products);
     } catch (error) {
       console.error(error);
@@ -35,7 +36,7 @@ const Products = () => {
             >
               <div className="w-full rounded-md border shadow-sm hover:shadow-lg transition-shadow duration-300">
                 <img
-                  src={`/api/v1/products/product/photo/${p._id}`}
+                  src={`${SERVER_URL}/api/v1/products/product/photo/${p._id}`}
                   alt={p.name}
                   className="h-[200px] w-full rounded-t-md object-contain"
                 />
