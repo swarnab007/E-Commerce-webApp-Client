@@ -40,7 +40,7 @@ const Home = () => {
                   className="w-full rounded-md border shadow-sm hover:shadow-lg transition-shadow duration-300"
                 >
                   <img
-                    src={`/api/v1/products/product/photo/${p._id}`}
+                    src={`${SERVER_URL}/api/v1/products/product/photo/${p._id}`}
                     alt={p.name}
                     className="h-[200px] w-full rounded-t-md object-contain"
                   />

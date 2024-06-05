@@ -27,7 +27,7 @@ const CartPage = () => {
         console.log(cart);
       } catch (error) {
         console.error("Error fetching cart details:", error);
-        toast.error("Failed to fetch cart details");
+        // toast.error("Failed to fetch cart details");
       }
     };
     if (auth.user) {
@@ -63,7 +63,9 @@ const CartPage = () => {
 
   const getToken = async () => {
     try {
-      const { data } = await axios.get(`${SERVER_URL}/api/v1/products/braintree-token`);
+      const { data } = await axios.get(
+        `${SERVER_URL}/api/v1/products/braintree-token`
+      );
       console.log("Braintree token:", data);
       setClientToken(data.clientToken);
     } catch (error) {
@@ -86,14 +88,17 @@ const CartPage = () => {
 
     try {
       const { nonce } = await instance.requestPaymentMethod();
-      const { data } = await axios.post(`${SERVER_URL}/api/v1/products/braintree/payment`, {
-        nonce,
-        cart,
-      });
+      const { data } = await axios.post(
+        `${SERVER_URL}/api/v1/products/braintree/payment`,
+        {
+          nonce,
+          cart,
+        }
+      );
       console.log("Payment response:", data);
       toast.success("Payment successful");
 
-     // Clear cart on the server
+      // Clear cart on the server
       await axios.post(`${SERVER_URL}/api/v1/users/delete-cart-items`, {
         headers: {
           Authorization: `${auth.token}`,
@@ -105,7 +110,6 @@ const CartPage = () => {
       navigate("/dashboard/user/orders");
     } catch (error) {
       console.error("Payment error:", error);
-      console.log("Payment error response:", error.response ? error.response.data : error.message);
       toast.error("Payment failed");
     }
   };
