@@ -21,6 +21,7 @@ import SearchPage from "./pages/SearchPage.jsx";
 import Details from "./pages/Details.jsx";
 import CartPage from "./pages/CartPage.jsx";
 import Orders from "./pages/user/Orders.jsx";
+import AdminOrders from "./pages/Admin/AdminOrders.jsx";
 
 function App() {
   return (
@@ -41,6 +42,7 @@ function App() {
           <Route path="admin/create-product" element={<CreateProduct />} />
           <Route path="admin/products" element={<Products />} />
           <Route path="admin/product/:slug" element={<EditProduct />} />
+          <Route path="admin/orders" element={<AdminOrders />} />
         </Route>
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
